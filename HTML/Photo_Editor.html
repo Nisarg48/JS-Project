@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Editor</title>
     <link rel="stylesheet" href="/CSS/Photo_Editor.css">
-    <script src="Photo_Editor.js"></script>
 </head>
 <body>
-
     <h1 align="center">Photo Editor</h1>
 
 <!-- Main Division That Contain Two Main Division -->
@@ -22,8 +20,11 @@
             <img src="/Photo/insert.png" alt="Insert Image">
             <b>Insert Image Here</b>
         </div>
-        <input type="file" name="" id="" accept="image/*" hidden>
-        <button>Choose Image</button>
+
+        <div class="choose_image">
+            <button>Choose Image</button>
+            <input type="file" name="" id="" accept="image/*" hidden>
+        </div>
     </div>
 
     <!-- Division That Contain Tools -->
@@ -66,6 +67,6 @@
         </div> 
     </div>
 </div>
-
+<script src="/JS/Photo_Editor.js"></script>
 </body>
 </html>
