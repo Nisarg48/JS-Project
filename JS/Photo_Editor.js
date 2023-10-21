@@ -4,7 +4,22 @@ let choose_image_button = document.querySelector(".choose_image button");
 let choose_image_input = document.querySelector(".choose_image input");
 let imgSrc = document.querySelector(".insert_image img");
 
-choose_image_button.addEventListener("click", () => choose_image_input.click());
+let filter_icon_buttons = document.querySelectorAll(".filter_icon_buttons button");
+let filter_name = document.querySelector(".filter_info .name");
+let slider_value = document.querySelector(".filter_info .value");
+let slider = document.querySelector(".slider input");
+
+let brightness = 100,
+    contrast = 100,
+    saturation = 100,
+    blur = 0;
+
+let alignment_icon_buttons = document.querySelectorAll(".alignment_icon_buttons button");
+let rotate = 0,
+    Flip_X = 1,
+    Flip_Y = 1;
+
+    choose_image_button.addEventListener("click", () => choose_image_input.click());
 
 // Insert That Image At ".insert_image img" 
 choose_image_input.addEventListener("change", () => {
@@ -21,15 +36,7 @@ choose_image_input.addEventListener("change", () => {
 
 // Make filter_icon active
 // Change Text Of Slider
-let filter_icon_buttons = document.querySelectorAll(".filter_icon_buttons button");
-let filter_name = document.querySelector(".filter_info .name");
-let slider_value = document.querySelector(".filter_info .value");
-let slider = document.querySelector(".slider input");
 
-let brightness = 100,
-    contrast = 100,
-    saturation = 100,
-    blur = 0;
 
 filter_icon_buttons.forEach((element) => {
     element.addEventListener("click", () => {
@@ -88,15 +95,13 @@ slider.addEventListener("input", () => {
 });
 
 // Add JavaScript On Alignment icons
-let alignment_icon_buttons = document.querySelectorAll(".alignment_icon_buttons button");
-let rotate = 0,
-    Flip_X = 1,
-    Flip_Y = 1;
+
 alignment_icon_buttons.forEach((element) => {
     element.addEventListener("click", () => {
-        if(element.id === "Rotate_Left")
+        // console.log(element);
+        if(element.id === "Rotate_Right")
         {
-            rotate -= 90;
+            rotate += 90;
         }
         else if(element.id === "Flip_X")
         {
@@ -107,8 +112,55 @@ alignment_icon_buttons.forEach((element) => {
             Flip_Y = Flip_Y === 1 ? -1 : 1;
         }
 
-        imgSrc.style.transform = `rotate(${rotate}deg) scale(${Flip_X}, ${Flip_Y}))`;
+        imgSrc.style.transform = `rotate(${rotate}deg) scale(${Flip_X}, ${Flip_Y})`;
     });
 });
 
+// JavaScript For Reset Image 
+let reset = document.querySelector(".reset");
+
+reset.addEventListener("click", () => {
+    brightness = "100";
+    contrast = "100";
+    saturation = "100";
+    blur = "0";
+    rotate = 0;
+    Flip_X = 1;
+    Flip_Y = 1;
+
+    imgSrc.style.transform = `rotate(${rotate}deg) scale(${Flip_X}, ${Flip_Y})`;
+    imgSrc.style.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%) blur(${blur}px)`; 
+});
+
+// JavaScript For Save Image
+
+let save = document.querySelector(".save");
+
+save.addEventListener("click", () => {
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext("2d");
+
+    canvas.width = imgSrc.naturalWidth;
+    canvas.height = imgSrc.naturalHeight;
+
+    ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%) blur(${blur}px)`; 
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.scale(Flip_X, Flip_Y);
+    ctx.drawImage(
+        imgSrc,
+        -canvas.width / 2, 
+        -canvas.height / 2,
+        canvas.width, 
+        canvas.height
+    );
+
+    // Explicitly specify the image format as 'image/png' when calling toDataURL
+    const imageURI = canvas.toDataURL('image/png');
+
+    // Create an 'a' element to trigger the download
+    const link = document.createElement("a");
+    link.download = "image.png";
+    link.href = imageURI;
+    link.click();
+});
 

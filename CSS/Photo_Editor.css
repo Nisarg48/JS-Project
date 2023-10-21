@@ -1,7 +1,7 @@
 .webpage
 {
     border: 1px solid rgb(0, 0, 0);
-    height: 100%;
+    height: 85vh;
     padding: 0.2%;
     display: flex;
     flex-direction: row;
@@ -10,8 +10,8 @@
 
 .photo
 {
-    width: 49.8%;
-    height: 100%;
+    width: 54.6%;
+    /* height: 100%; */
     border: 1px solid black;
     border-radius: 3px;
     padding: 2px;
@@ -26,7 +26,6 @@
 .insert_image
 {
     height: 360px;
-    width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,8 +45,8 @@
 /* Tools Division */
 .tools
 {
-    width: 49.8%;
-    height: 100%;
+    width: 45%;
+    /* height: 100%; */
     border: 1px solid black;
     padding: 5px;
     align-items: center;
