@@ -60,6 +60,25 @@
             </div>
         </div>
 
+        <!-- Add these elements to your existing HTML -->
+        <div class="Cropper">
+            <div class="crop_resize">
+                <button class="crop">Crop</button>
+                <button class="resize">Resize</button>
+            </div>
+
+            <div class="crop_resize_options" style="display: none;">
+                <input type="number" id="crop_x" placeholder="X Coordinate">
+                <input type="number" id="crop_y" placeholder="Y Coordinate">
+                <input type="number" id="crop_width" placeholder="Width">
+                <input type="number" id="crop_height" placeholder="Height">
+                <button class="apply_crop">Apply Crop</button>
+                <!-- <input type="number" id="resize_width" placeholder="New Width">
+                <input type="number" id="resize_height" placeholder="New Height">
+                <button class="apply_resize">Apply Resize</button> -->
+            </div>
+        </div>
+
         <div class="reset_save">
             <button class="reset">Reset</button>
             <button class="save">Save Image</button>

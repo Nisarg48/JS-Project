@@ -36,8 +36,6 @@ choose_image_input.addEventListener("change", () => {
 
 // Make filter_icon active
 // Change Text Of Slider
-
-
 filter_icon_buttons.forEach((element) => {
     element.addEventListener("click", () => {
         document.querySelector(".active").classList.remove("active");
@@ -72,8 +70,17 @@ filter_icon_buttons.forEach((element) => {
 });
 
 slider.addEventListener("input", () => {
-    slider_value.innerText = `${slider.value}%`;
     let SliderState = document.querySelector(".filter_icon_buttons .active");
+    
+    if(SliderState.id === "Brightness" || SliderState.id === "Contrast" || SliderState.id === "Saturation")
+    {
+        slider_value.innerText = `${slider.value}%`;
+    }
+    else if(SliderState.id === "Blur")
+    {
+        slider_value.innerText = `${slider.value}px`;
+    }
+
     if(SliderState.id === "Brightness")
     {
         brightness = slider.value;
@@ -95,7 +102,6 @@ slider.addEventListener("input", () => {
 });
 
 // Add JavaScript On Alignment icons
-
 alignment_icon_buttons.forEach((element) => {
     element.addEventListener("click", () => {
         // console.log(element);
@@ -128,12 +134,40 @@ reset.addEventListener("click", () => {
     Flip_X = 1;
     Flip_Y = 1;
 
-    imgSrc.style.transform = `rotate(${rotate}deg) scale(${Flip_X}, ${Flip_Y})`;
+    for(let element of filter_icon_buttons)
+    {
+        console.log(element);
+        if(element.id === 'Brightness')
+        {
+            slider_value.innerText = `${brightness}%`;
+        }
+        else if(element.id === "Contrast")
+        {
+            slider_value.innerText = `${contrast}%`;
+        }
+        else if(element.id === "Saturation")
+        {
+            slider_value.innerText = `${saturation}%`;
+        }
+        else if(element.id === "Blur")
+        {
+            slider_value.innerText = `${blur}px`;
+        }
+    }
+
+    // replace image with its original image
+    let file = choose_image_input.files[0];
+    if(!file)
+    {
+        return;
+    }
+    imgSrc.src = URL.createObjectURL(file);
+
     imgSrc.style.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%) blur(${blur}px)`; 
+    imgSrc.style.transform = `rotate(${rotate}deg) scale(${Flip_X}, ${Flip_Y})`;
 });
 
 // JavaScript For Save Image
-
 let save = document.querySelector(".save");
 
 save.addEventListener("click", () => {
@@ -155,12 +189,61 @@ save.addEventListener("click", () => {
     );
 
     // Explicitly specify the image format as 'image/png' when calling toDataURL
-    const imageURI = canvas.toDataURL('image/png');
+    const imageURI = canvas.toDataURL('image/jpg');
 
     // Create an 'a' element to trigger the download
     const link = document.createElement("a");
-    link.download = "image.png";
+    link.download = "image.jpg";
     link.href = imageURI;
     link.click();
 });
 
+// JavaScript for Crop and Resize Features
+let cropButton = document.querySelector(".crop");
+let resizeButton = document.querySelector(".resize");
+let cropResizeOptions = document.querySelector(".crop_resize_options");
+
+cropButton.addEventListener("click", () => {
+    cropResizeOptions.style.display = "block";
+    document.querySelector(".apply_crop").style.display = "block";
+    document.querySelector(".apply_resize").style.display = "none";
+});
+
+resizeButton.addEventListener("click", () => {
+    // replace image with its original image
+    let file = choose_image_input.files[0];
+    if(!file)
+    {
+        return;
+    }
+    imgSrc.src = URL.createObjectURL(file);
+
+    // Apply filters and alignment on image
+    imgSrc.style.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%) blur(${blur}px)`;
+    imgSrc.style.transform = `rotate(${rotate}deg) scale(${Flip_X}, ${Flip_Y})`;
+});
+
+let applyCropButton = document.querySelector(".apply_crop");
+applyCropButton.addEventListener("click", () => {
+    let x = Number(document.getElementById("crop_x").value);
+    let y = Number(document.getElementById("crop_y").value);
+    let width = Number(document.getElementById("crop_width").value);
+    let height = Number(document.getElementById("crop_height").value);
+
+    if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height)) {
+        let canvas = document.createElement("canvas");
+        let ctx = canvas.getContext("2d");
+
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.drawImage(
+            imgSrc,
+            x, y, width, height,
+            0, 0, width, height
+        );
+
+        imgSrc.src = canvas.toDataURL("image/jpeg");
+        cropResizeOptions.style.display = "none";
+    }
+});

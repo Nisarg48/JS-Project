@@ -1,31 +1,36 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fff;
+}
+
 .webpage
 {
     border: 1px solid rgb(0, 0, 0);
-    height: 85vh;
+    height: 100%;
     padding: 0.2%;
     display: flex;
     flex-direction: row;
     border-radius: 3px;
+    background-color: #fff;
 }
 
 .photo
 {
-    width: 54.6%;
-    /* height: 100%; */
-    border: 1px solid black;
+    width: 55%; /* Adjusted width */
+    border: 1px solid #000;
     border-radius: 3px;
-    padding: 2px;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    display: flex;
     flex-direction: column;
-    margin: auto 1%;
+    margin: 10px;
+    background-color: #fff;
 }
 
 .insert_image
 {
-    height: 360px;
+    max-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -34,38 +39,42 @@
 
 .insert_image img
 {
-    height: 360px;
+    max-height: 100%;
+    max-width: 100%;
 }
 
 .choose_image button
 {
     height: 30px;
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin-top: 10px;
 }
 
 /* Tools Division */
 .tools
 {
     width: 45%;
-    /* height: 100%; */
-    border: 1px solid black;
-    padding: 5px;
-    align-items: center;
-    margin: 2px;
-    overflow: scroll;
+    border: 1px solid #000;
+    padding: 10px;
+    margin: 10px;
+    overflow: auto;
+    background-color: #fff;
 }
 
 /* Tools -> Slider */
 .tools .slider input
 {
-    width: 400px;
+    width: 100%;
 }
 
 .filter_info
 {
-    width: 400px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    
 }
 
 .active
@@ -74,20 +83,26 @@
 }
 
 /* Tools -> filter_icon_button, alignment_icon_button */
-.tools .filter_icon_buttons button, .tools .alignment_icon_buttons button
+.tools .filter_icon_buttons button,
+.tools .alignment_icon_buttons button
 {
     height: 50px;
     width: 100px;
 }
 
-.tools .filter_icon_buttons img, .tools .alignment_icon_buttons img
+.tools .filter_icon_buttons img, 
+.tools .alignment_icon_buttons img
 {
     height: 40px;
     margin: 3px;
 }
 
 /* Give Border to All Group of Icon */
-.slider, .filter_icon, .alignment_icon, .reset_save
+.slider,
+.filter_icon,
+.alignment_icon,
+.reset_save,
+.Cropper
 {
     border: 2px solid black;
     padding: 2px;
@@ -97,7 +112,8 @@
 }
 
 /* Reset and Save */
-.reset_save button
+.reset_save button,
+.Cropper button
 {
     height: 30px;
     width: 100px;
