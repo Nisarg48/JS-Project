@@ -70,13 +70,10 @@ filter_icon_buttons.forEach((element) => {
 });
 
 slider.addEventListener("input", () => {
+    slider_value.innerText = `${slider.value}%`;
     let SliderState = document.querySelector(".filter_icon_buttons .active");
     
-    if(SliderState.id === "Brightness" || SliderState.id === "Contrast" || SliderState.id === "Saturation")
-    {
-        slider_value.innerText = `${slider.value}%`;
-    }
-    else if(SliderState.id === "Blur")
+    if(SliderState.id === "Blur")
     {
         slider_value.innerText = `${slider.value}px`;
     }
@@ -104,10 +101,25 @@ slider.addEventListener("input", () => {
 // Add JavaScript On Alignment icons
 alignment_icon_buttons.forEach((element) => {
     element.addEventListener("click", () => {
-        // console.log(element);
+
         if(element.id === "Rotate_Right")
         {
-            rotate += 90;
+            rotate = 90;
+
+            let canvas = document.createElement("canvas");
+            let ctx = canvas.getContext("2d");
+
+            canvas.width = imgSrc.height;
+            canvas.height = imgSrc.width;
+
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(rotate * (Math.PI / 180));
+
+            ctx.drawImage(imgSrc, -imgSrc.width / 2, -imgSrc.height / 2, imgSrc.width, imgSrc.height);
+
+            let imageURI = canvas.toDataURL("image/jpg");
+
+            imgSrc.src = imageURI;
         }
         else if(element.id === "Flip_X")
         {
@@ -118,7 +130,7 @@ alignment_icon_buttons.forEach((element) => {
             Flip_Y = Flip_Y === 1 ? -1 : 1;
         }
 
-        imgSrc.style.transform = `rotate(${rotate}deg) scale(${Flip_X}, ${Flip_Y})`;
+        imgSrc.style.transform = `scale(${Flip_X}, ${Flip_Y})`;
     });
 });
 
@@ -243,7 +255,7 @@ applyCropButton.addEventListener("click", () => {
             0, 0, width, height
         );
 
-        imgSrc.src = canvas.toDataURL("image/jpeg");
+        imgSrc.src = canvas.toDataURL("image/jpg");
         cropResizeOptions.style.display = "none";
     }
 });
